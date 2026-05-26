@@ -1,1 +1,530 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Echo English | Professional Communication Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg: #0a0c15;
+            --card: #11141f;
+            --card-inner: #171c2a;
+            --accent: #4f9fff;
+            --accent-glow: rgba(79, 159, 255, 0.08);
+            --gold: #f5b042;
+            --gold-glow: rgba(245, 176, 66, 0.12);
+            --success: #2dd881;
+            --error: #ff5a4a;
+            --text: #edf2fc;
+            --muted: #8a99b4;
+            --border: #202536;
+            --transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.55;
+            padding-bottom: 130px;
+        }
+
+        .app {
+            max-width: 640px;
+            margin: 0 auto;
+            background: var(--bg);
+            min-height: 100vh;
+        }
+
+        /* header */
+        .glass-header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 12, 21, 0.92);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo i { color: var(--accent); font-size: 1.1rem; }
+        .logo span { color: var(--accent); }
+        .icon-btn {
+            background: var(--card-inner);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .icon-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+        /* stats */
+        .stats-row {
+            background: var(--card);
+            padding: 10px 20px;
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
+        }
+        .stats-row i { margin-right: 5px; }
+        .xp-glow { color: var(--success); }
+        /* day tabs */
+        .tabs-scroll {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+        }
+        .tabs-scroll::-webkit-scrollbar { display: none; }
+        .day-btn {
+            flex-shrink: 0;
+            padding: 12px 20px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .day-btn.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+            background: var(--accent-glow);
+        }
+        .day-btn.locked { opacity: 0.5; cursor: not-allowed; }
+        /* module pills */
+        .module-strip {
+            display: flex;
+            gap: 8px;
+            padding: 14px 20px;
+            overflow-x: auto;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+        .pill {
+            background: var(--card-inner);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 5px 16px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--muted);
+        }
+        .pill.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+        /* main content */
+        .main-area { padding: 20px; }
+        .lesson-module {
+            background: var(--card);
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            padding: 22px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: var(--accent-glow);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 30px;
+            margin-bottom: 14px;
+        }
+        .badge-gold { background: var(--gold-glow); color: var(--gold); }
+        h2 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 8px; color: white; }
+        .ar-translate {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            direction: rtl;
+            background: rgba(255,255,255,0.02);
+            padding: 12px 14px;
+            border-radius: 18px;
+            margin: 12px 0;
+            font-size: 0.85rem;
+            color: #b4c0e0;
+            display: none;
+            border-right: 3px solid var(--accent);
+        }
+        body.show-translation .ar-translate { display: block; }
+        .formula-card {
+            background: #0f1320;
+            padding: 14px 16px;
+            border-radius: 20px;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin: 16px 0;
+            border-left: 4px solid var(--accent);
+            color: white;
+        }
+        .example-item {
+            background: var(--card-inner);
+            border-radius: 18px;
+            padding: 14px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+        .eng-main { font-weight: 700; font-size: 0.95rem; color: white; }
+        .meta-tip { font-size: 0.7rem; color: var(--accent); margin-top: 6px; font-weight: 600; }
+        .vocab-list { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+        .vocab-item {
+            background: var(--card-inner);
+            border-radius: 18px;
+            padding: 12px;
+            border: 1px solid var(--border);
+        }
+        .vocab-word { font-weight: 800; font-size: 1rem; color: white; }
+        /* practice */
+        .practice-box {
+            background: var(--card);
+            border-radius: 26px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(79, 159, 255, 0.3);
+        }
+        .practice-question { font-weight: 700; font-size: 1rem; margin: 10px 0; color: white; }
+        textarea {
+            width: 100%;
+            background: var(--card-inner);
+            border: 1.5px solid var(--border);
+            border-radius: 18px;
+            padding: 14px;
+            color: white;
+            font-family: inherit;
+            resize: vertical;
+            margin-top: 10px;
+        }
+        .btn-see {
+            background: var(--card-inner);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 10px;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 12px;
+            color: var(--text);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .model-hidden { display: none; margin-top: 14px; background: rgba(45, 216, 129, 0.05); padding: 14px; border-radius: 18px; border-left: 3px solid var(--success); }
+        .model-visible { display: block; }
+        /* quiz */
+        .quiz-panel { background: var(--card); border-radius: 28px; padding: 20px; margin-top: 16px; }
+        .progress-bar { background: var(--card-inner); height: 6px; border-radius: 10px; margin: 16px 0; overflow: hidden; }
+        .progress-fill { background: var(--accent); width: 0%; height: 100%; transition: width 0.2s; }
+        .options-grid { display: flex; flex-direction: column; gap: 10px; margin: 18px 0; }
+        .opt-btn {
+            background: var(--card-inner);
+            border: 1.5px solid var(--border);
+            border-radius: 24px;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .opt-btn.correct { border-color: var(--success); background: rgba(45, 216, 129, 0.1); }
+        .opt-btn.wrong { border-color: var(--error); background: rgba(255, 90, 74, 0.1); }
+        .fixed-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 640px;
+            background: rgba(10, 12, 21, 0.96);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 12px 20px;
+            z-index: 99;
+        }
+        .btn-primary {
+            background: var(--accent);
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: 800;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(79, 159, 255, 0.2);
+        }
+        .completion-view {
+            text-align: center;
+            padding: 30px 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="glass-header">
+        <div class="logo"><i class="fa-regular fa-message"></i> Echo<span>Pro</span></div>
+        <button class="icon-btn" id="toggleArBtn"><i class="fa-solid fa-language"></i> العربية</button>
+    </div>
+    <div class="stats-row">
+        <span><i class="fa-regular fa-user"></i> Saud Al-Rashid</span>
+        <span class="xp-glow"><i class="fa-solid fa-star"></i> <span id="xpTotal">0</span> XP</span>
+        <span><i class="fa-regular fa-clock"></i> Week 1 · Accelerator</span>
+    </div>
+
+    <div class="tabs-scroll" id="dayTabs">
+        <button class="day-btn active" data-day="0">📘 Day 1 · Core</button>
+        <button class="day-btn locked" disabled>🔒 Day 2 · Negotiation</button>
+        <button class="day-btn locked" disabled>🔒 Day 3 · Leadership</button>
+        <button class="day-btn locked" disabled>🔒 Day 4 · Presentation</button>
+        <button class="day-btn locked" disabled>🔒 Day 5 · Final review</button>
+    </div>
+
+    <div class="module-strip" id="moduleBar">
+        <div class="pill active" data-mod="0">🎯 Adapting</div>
+        <div class="pill" data-mod="1">💡 If/Would</div>
+        <div class="pill" data-mod="2">📌 Key Phrases</div>
+        <div class="pill" data-mod="3">📢 PR Words</div>
+        <div class="pill" data-mod="4">✉️ Emails</div>
+        <div class="pill" data-mod="5">🎤 Interviews</div>
+        <div class="pill" data-mod="6">✍️ Practice Hub</div>
+    </div>
+
+    <div class="main-area" id="dynamicContent"></div>
+
+    <div class="fixed-bottom" id="actionFooter">
+        <button class="btn-primary" id="quizTriggerBtn">🚀 Launch Quiz · 30 Questions</button>
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // XP System & storage
+    let userXP = parseInt(localStorage.getItem('echo_xp_saud') || '0');
+    let sessionQuizXP = 0;
+    const xpSpan = document.getElementById('xpTotal');
+    const updateXPdisplay = () => { xpSpan.innerText = userXP + sessionQuizXP; };
+    updateXPdisplay();
+
+    // Translation toggle
+    const toggleBtn = document.getElementById('toggleArBtn');
+    toggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('show-translation');
+        toggleBtn.classList.toggle('active');
+    });
+
+    // Simple module navigation scroll
+    let currentModule = 0;
+    const modulesContent = {
+        0: 'moduleAdapt',
+        1: 'moduleIf',
+        2: 'modulePhrases',
+        3: 'modulePR',
+        4: 'moduleEmail',
+        5: 'moduleInterview',
+        6: 'modulePractice'
+    };
+
+    // ---------- LESSON DATA (rich content with arabic inside)
+    function renderModule(moduleId) {
+        const container = document.getElementById('dynamicContent');
+        if(!container) return;
+        let html = '';
+        if(moduleId === 0) {
+            html = `<div class="lesson-module">
+                        <div class="badge"><i class="fa-solid fa-seedling"></i> Module 1 · Adapting to routines</div>
+                        <h2>Getting used to new challenges</h2>
+                        <div class="ar-translate">التعبير عن التعود على عادات جديدة في بيئة العمل أو الدراسة</div>
+                        <div class="formula-card">✨ I am getting used to + [Verb + ING]</div>
+                        <div class="ar-translate">نستخدم هذا التركيب عندما يصبح شيء صعب عادة يومية</div>
+                        <div class="example-item"><div class="eng-main">"I am getting used to managing my team remotely."</div><div class="meta-tip">Remote work habit</div><div class="ar-translate">بدأت أعتاد على إدارة فريقي عن بُعد</div></div>
+                        <div class="example-item"><div class="eng-main">"I am getting used to analysing data without help."</div><div class="meta-tip">Professional growth</div><div class="ar-translate">أعتاد على تحليل البيانات بدون مساعدة</div></div>
+                        <div class="example-item"><div class="eng-main">"I am getting used to writing concise daily reports."</div><div class="meta-tip">New workflow</div><div class="ar-translate">أعتاد على كتابة تقارير يومية موجزة</div></div>
+                    </div>`;
+        } else if(moduleId === 1) {
+            html = `<div class="lesson-module">
+                        <div class="badge"><i class="fa-solid fa-diagram-project"></i> Module 2 · Imaginary situations</div>
+                        <h2>If I had ..., I would ...</h2>
+                        <div class="ar-translate">تحدث عن مواقف غير حقيقية أو أهداف مستقبلية</div>
+                        <div class="formula-card">If + past simple , would + base verb</div>
+                        <div class="example-item"><div class="eng-main">"If I had a mentor, I would improve faster."</div><div class="meta-tip">Goal-oriented</div><div class="ar-translate">لو كان لدي مرشد، لتحسنت بشكل أسرع</div></div>
+                        <div class="example-item"><div class="eng-main">"If I knew the client's needs, I would adjust the pitch."</div><div class="meta-tip">Strategic thinking</div><div class="ar-translate">لو عرفت احتياجات العميل، لعدلت العرض التقديمي</div></div>
+                    </div>`;
+        } else if(moduleId === 2) {
+            html = `<div class="lesson-module"><div class="badge"><i class="fa-regular fa-comment-dots"></i> Module 3 · Power phrases</div>
+                        <div class="vocab-list"><div class="vocab-item"><div class="vocab-word">🔹 Finding it hard to</div><div class="meta-tip">"I am finding it hard to balance multiple deadlines."</div><div class="ar-translate">أجد صعوبة في الموازنة بين عدة مواعيد</div></div>
+                        <div class="vocab-item"><div class="vocab-word">🔸 In the long run</div><div class="meta-tip">"In the long run, daily practice saves time."</div><div class="ar-translate">على المدى البعيد</div></div>
+                        <div class="vocab-item"><div class="vocab-word">🔹 To have a clear grasp of</div><div class="meta-tip">"You need a clear grasp of PR metrics."</div><div class="ar-translate">استيعاب كامل لشيء ما</div></div>
+                        <div class="vocab-item"><div class="vocab-word">🔸 To be on the same page</div><div class="meta-tip">"Let's align to be on the same page before launch."</div><div class="ar-translate">نكون على توافق ورؤية واحدة</div></div></div></div>`;
+        } else if(moduleId === 3) {
+            html = `<div class="lesson-module"><div class="badge badge-gold"><i class="fa-solid fa-bullhorn"></i> Module 4 · PR glossary</div>
+                        <div class="vocab-list"><div class="vocab-item"><div class="vocab-word">📢 Key message</div><div class="meta-tip">"Our key message focuses on sustainability."</div><div class="ar-translate">الرسالة الأساسية</div></div>
+                        <div class="vocab-item"><div class="vocab-word">🎯 Target audience</div><div class="meta-tip">"Young entrepreneurs aged 22-35"</div><div class="ar-translate">الجمهور المستهدف</div></div>
+                        <div class="vocab-item"><div class="vocab-word">📰 Earned media</div><div class="meta-tip">"We gained earned media through an exclusive story."</div><div class="ar-translate">التغطية الإعلامية المجانية</div></div>
+                        <div class="vocab-item"><div class="vocab-word">⚠️ Crisis communication</div><div class="meta-tip">"Transparency is vital in crisis communication."</div><div class="ar-translate">التواصل أثناء الأزمات</div></div></div></div>`;
+        } else if(moduleId === 4) {
+            html = `<div class="lesson-module"><div class="badge"><i class="fa-regular fa-envelope"></i> Module 5 · Email clarity</div>
+                        <div class="formula-card">Opening → Purpose → CTA → Closing</div>
+                        <div class="example-item"><div class="eng-main">"I am writing to follow up on our proposal."</div><div class="ar-translate">أكتب لمتابعة الاقتراح</div></div>
+                        <div class="example-item"><div class="eng-main">"Could you share feedback by Thursday?"</div><div class="ar-translate">هل يمكنك مشاركة الملاحظات بحلول الخميس؟</div></div>
+                        <div class="example-item"><div class="eng-main">"Please find attached the revised timeline."</div><div class="ar-translate">تجدون مرفقاً الجدول الزمني المعدل</div></div>
+                    </div>`;
+        } else if(moduleId === 5) {
+            html = `<div class="lesson-module"><div class="badge badge-gold"><i class="fa-solid fa-microphone-lines"></i> Module 6 · Interview strategy</div>
+                        <div class="example-item"><div class="eng-main">"Tell me about yourself." → "I study communication and I am getting used to high-pressure environments."</div><div class="ar-translate">أدرس الاتصال وأعتاد على بيئات الضغط العالي</div></div>
+                        <div class="example-item"><div class="eng-main">"Greatest weakness?" → "I sometimes find it hard to delegate, but I am improving by using task boards."</div><div class="ar-translate">أجد صعوبة أحياناً في تفويض المهام، لكني أتحسن باستخدام لوحات المهام.</div></div>
+                        <div class="callout" style="background: var(--accent-glow); padding: 12px; border-radius: 20px;">✨ STAR method: Situation, Task, Action, Result</div>
+                    </div>`;
+        } else if(moduleId === 6) {
+            html = `<div class="practice-box" id="practiceArea"><div class="badge"><i class="fa-regular fa-pen-to-square"></i> Open practice · Apply today’s tools</div>
+                        ${generatePracticeCards()}
+                        <button class="btn-primary" id="submitTutorBtn" style="margin-top: 18px; background: var(--gold);"><i class="fa-regular fa-paper-plane"></i> Submit to my tutor (Daniah)</button>
+                    </div>`;
+        }
+        container.innerHTML = html;
+        if(moduleId === 6) attachPracticeEvents();
+    }
+
+    function generatePracticeCards() {
+        return `
+            <div class="practice-card-item"><div class="practice-question">🔹 1. What is one professional task you are getting used to?</div><textarea class="ansInput" placeholder="I am getting used to ..."></textarea><button class="btn-see modelBtn">📘 Model answer</button><div class="model-hidden modelAns">"I am getting used to preparing weekly analytics reports. It was confusing at first, but now it’s a habit."<div class="ar-translate">بدأت أعتاد على إعداد تقارير التحليل الأسبوعية.</div></div></div>
+            <div class="practice-card-item"><div class="practice-question">💡 2. If you had more resources at work, what would you improve?</div><textarea class="ansInput" placeholder="If I had more resources, I would..."></textarea><button class="btn-see modelBtn">📘 Model answer</button><div class="model-hidden modelAns">"If I had a bigger budget, I would launch a social media campaign targeting young professionals."<div class="ar-translate">لو كانت لدي ميزانية أكبر، لأطلقت حملة على وسائل التواصل تستهدف المهنيين الشباب.</div></div></div>
+            <div class="practice-card-item"><div class="practice-question">✉️ 3. Write a short email to reschedule a meeting.</div><textarea class="ansInput" placeholder="Dear team, ..."></textarea><button class="btn-see modelBtn">📘 Model answer</button><div class="model-hidden modelAns">"Hi, I’m writing to reschedule our catch-up. Could we move it to Thursday at 2 PM? I appreciate your understanding."<div class="ar-translate">مرحباً، أكتب لإعادة جدولة الاجتماع، هل يمكن نقله إلى الخميس الساعة 2 ظهراً؟</div></div></div>
+            <div class="practice-card-item"><div class="practice-question">🎤 4. Answer interview: "What is your greatest weakness?"</div><textarea class="ansInput" placeholder="My greatest weakness is... but I am working on it by..."></textarea><button class="btn-see modelBtn">📘 Model answer</button><div class="model-hidden modelAns">"I find it hard to speak in large meetings, but I am getting used to sharing one point per session to build confidence."<div class="ar-translate">أجد صعوبة في التحدث أمام اجتماعات كبيرة، لكني أعتاد على مشاركة نقطة واحدة في كل جلسة.</div></div></div>
+            <div class="practice-card-item"><div class="practice-question">📢 5. Use 'target audience', 'key message', and 'earned media' in one paragraph.</div><textarea class="ansInput" placeholder="Write your PR pitch..."></textarea><button class="btn-see modelBtn">📘 Model answer</button><div class="model-hidden modelAns">"Our target audience is eco-conscious millennials. The key message is 'small changes, big impact.' We aim to secure earned media through local news features."<div class="ar-translate">الجمهور المستهدف هم جيل الألفية المهتم بالبيئة، والرسالة الرئيسية هي تغييرات صغيرة تأثير كبير.</div></div></div>
+        `;
+    }
+
+    function attachPracticeEvents() {
+        document.querySelectorAll('.modelBtn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const parent = btn.closest('.practice-card-item');
+                const modelDiv = parent.querySelector('.modelAns');
+                if(modelDiv) modelDiv.classList.toggle('model-visible');
+                btn.innerHTML = modelDiv.classList.contains('model-visible') ? '🙈 Hide model' : '📘 Model answer';
+            });
+        });
+        const submitBtn = document.getElementById('submitTutorBtn');
+        if(submitBtn) {
+            submitBtn.addEventListener('click', () => {
+                let answers = "Echo English - Day 1 Homework\n";
+                const texts = document.querySelectorAll('.ansInput');
+                texts.forEach((ta, idx) => { answers += `\n${idx+1}. ${ta.value.trim() || "(not answered)"}`; });
+                window.location.href = `mailto:daniah1322@gmail.com?subject=EchoEnglish%20Homework%20Saud&body=${encodeURIComponent(answers)}`;
+            });
+        }
+    }
+
+    // Quiz data (mixed from original themes)
+    const qBank = [
+        {q: "I am getting used to ____ early for work.", opts: ["wake", "waking", "woke"], correct:1, feedback:"After 'getting used to' use verb+ING"},
+        {q: "If I ____ more time, I would take extra courses.", opts: ["have", "had", "would have"], correct:1, feedback:"Second conditional uses past simple"},
+        {q: "'In the long run' means:", opts: ["Immediately", "Over a long period", "Never"], correct:1, feedback:"Refers to future outcomes"},
+        {q: "What is 'earned media'?", opts: ["Paid ads", "Free coverage from journalists", "Social media boost"], correct:1, feedback:"Earned media is organic publicity"},
+        {q: "Which phrase means 'everyone agrees'?", opts: ["key message", "on the same page", "target audience"], correct:1, feedback:"To be on the same page = agreement"},
+        {q: "Fill: I am finding it hard ____ deadlines.", opts: ["to meet", "meeting", "met"], correct:0, feedback:"finding it hard + to + infinitive"},
+        {q: "If she ____ the manager, she would negotiate.", opts: ["knows", "knew", "known"], correct:1, feedback:"past simple after if"},
+        {q: "'Crisis communication' is used when:", opts: ["Everything is fine", "A company faces a problem", "Launching a product"], correct:1, feedback:"Managing reputation during issues"},
+        {q: "What is the most professional email opening?", opts: ["Hey", "I am writing to follow up", "What's up"], correct:1, feedback:"Direct and clear"},
+        {q: "'I look forward to hearing from you' is:", opts: ["Rude", "Polite closing", "Opening line"], correct:1, feedback:"Standard professional closing"},
+        {q: "Choose correct: If I had the answer, I ____ share it.", opts: ["will", "would", "would have"], correct:1, feedback:"would + base verb"},
+        {q: "To have a clear grasp means:", opts: ["To hold tightly", "To understand deeply", "To ignore"], correct:1, feedback:"Deep understanding"},
+        {q: "Which is correct email CTA?", opts: ["Let me know your thoughts", "do it soon", "reply maybe"], correct:0, feedback:"Polite and clear"},
+        {q: "PR: 'target audience' refers to:", opts: ["everyone", "specific group", "employees"], correct:1, feedback:"The specific segment for communication"},
+        {q: "Interview tip: STAR stands for:", opts: ["Situation, Task, Action, Result", "Start, Talk, Answer, Review", "Story, Time, Action, Role"], correct:0, feedback:"STAR framework"},
+        {q: "Which uses 'getting used to' correctly?", opts: ["I am getting used to work late", "I am getting used to working late", "I get used to work"], correct:1, feedback:"ING form required"},
+        {q: "If I ____ the budget, I would hire an assistant.", opts: ["have", "had", "having"], correct:1, feedback:"Hypothetical past"},
+        {q: "Earned media builds ____ more than paid ads.", opts: ["trust", "cost", "confusion"], correct:0, feedback:"Credibility advantage"},
+        {q: "Best answer to weakness:", opts: ["I am perfect", "I am finding it hard to delegate, so I use checklists", "I work too hard"], correct:1, feedback:"Honest + improvement"},
+        {q: "In professional email, the main point should be:", opts: ["At the end", "First 2 sentences", "In the signature"], correct:1, feedback:"Front-loading"},
+        {q: "'Key message' importance:", opts: ["Main idea to remember", "Any message", "Logo design"], correct:0, feedback:"Core communication"},
+        {q: "Which conditional is correct?", opts: ["If I would know, I tell", "If I knew, I would tell", "If I know, I would tell"], correct:1, feedback:"If + past, would + base"},
+        {q: "Phrase: 'In the long run, learning English...'", opts: ["wastes time", "opens opportunities", "is hard only"], correct:1, feedback:"Long-term benefit"},
+        {q: "Crisis comm example:", opts: ["Issuing apology statement", "Launching sale", "Ignoring comments"], correct:0, feedback:"Proactive response"},
+        {q: "Email closing: 'I appreciate your ____.'", opts: ["time", "cooperation", "Both acceptable"], correct:2, feedback:"Professional closings"},
+        {q: "Tell me about yourself: best style", opts: ["My life story", "Current studies + passion + goal", "Family details"], correct:1, feedback:"Concise and relevant"},
+        {q: "'Thought leadership' means:", opts: ["Being a boss", "Recognized expert", "Following trends"], correct:1, feedback:"Industry authority"},
+        {q: "Adapting: 'I am getting used to ____ feedback.'", opts: ["giving", "give", "gave"], correct:0, feedback:"ING after to"},
+        {q: "If I had remote tools, I ____ work from anywhere.", opts: ["would", "will", "can"], correct:0, feedback:"conditional result"},
+        {q: "Which is PR term for free coverage?", opts: ["Paid media", "Earned media", "Owned media"], correct:1, feedback:"Editorial coverage"}
+    ];
+    let quizActive = false, qIndex = 0, quizScoreXP = 0, correctCount = 0;
+
+    function startQuiz() {
+        quizActive = true;
+        qIndex = 0; quizScoreXP = 0; correctCount = 0;
+        sessionQuizXP = 0;
+        document.getElementById('dynamicContent').innerHTML = `<div class="quiz-panel" id="quizContainer"></div>`;
+        renderQuizQuestion();
+        document.getElementById('actionFooter').innerHTML = `<button class="btn-primary" id="exitQuizBtn">📚 Back to lessons</button>`;
+        document.getElementById('exitQuizBtn').onclick = () => { location.reload(); };
+    }
+
+    function renderQuizQuestion() {
+        if(qIndex >= qBank.length) {
+            const gainedXP = correctCount * 10;
+            sessionQuizXP = gainedXP;
+            userXP += gainedXP;
+            localStorage.setItem('echo_xp_saud', userXP);
+            updateXPdisplay();
+            document.getElementById('dynamicContent').innerHTML = `<div class="completion-view"><i class="fa-regular fa-circle-check" style="font-size: 3rem; color: var(--success);"></i><h2>Quiz done!</h2><p>You answered ${correctCount}/${qBank.length} correctly.</p><p>+${gainedXP} XP earned!</p><button class="btn-primary" id="resetAfterQuiz">Explore modules</button></div>`;
+            document.getElementById('resetAfterQuiz')?.addEventListener('click', () => location.reload());
+            return;
+        }
+        const q = qBank[qIndex];
+        const percent = (qIndex / qBank.length) * 100;
+        const container = document.getElementById('quizContainer');
+        container.innerHTML = `
+            <div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div>
+            <div style="font-weight:800; margin-bottom:12px;">Question ${qIndex+1}/${qBank.length}</div>
+            <div class="practice-question">${q.q}</div>
+            <div class="options-grid
